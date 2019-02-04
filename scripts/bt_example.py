@@ -102,7 +102,8 @@ if __name__ == '__main__':
     print('Traversal:',root.traverse())
 
     # tick 100 times
-    for i in range(100):
+    #  for i in range(10000):
+    while not rospy.is_shutdown():
         # send a tick through the tree.
         # this is recursive
         r = root.tick()
@@ -117,6 +118,7 @@ if __name__ == '__main__':
 
         # a SUCCESS or FAILURE at the root node indicates 'done'
         if r == SUCCESS or r == FAILURE:
+            print('We are done here')
             break
 
         # i am not as fast as the CPU, normally not needed
