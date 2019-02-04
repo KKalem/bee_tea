@@ -78,7 +78,8 @@ You should implement something that is not counting to 5 in the `act` function.
 methods of `BT_ActionNode` can be modified to do specific stuff if need be. 
 
 
-I suggest superclassing bt_action_node.
+I suggest superclassing BT_ActionNode from bt_action_node.
+Goal is a string, whatever the tree has sent over. Can be ignored if not needed.
 Do:
 
 
