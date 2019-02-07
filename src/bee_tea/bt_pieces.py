@@ -117,6 +117,8 @@ class ActionNodeLeaf(AbstractLeafNode):
         self._unique_name = None
         self.parent = None
 
+        self._last_used_id = 0
+
         # None means not checked
         # = {SUCCESS, FAILURE, RUNNING}
         self._status = None
@@ -152,10 +154,16 @@ class ActionNodeLeaf(AbstractLeafNode):
             if self._goal_update_fn is not None:
                 self._goal.bt_action_goal = self._goal_update_fn()
 
+
+            self._last_used_id +=1
+            self._goal.goal_id.id = str(self._last_used_id)
+
             self._ac.send_goal(self._goal,
                                done_cb = None,
                                active_cb = None,
                                feedback_cb = self._feedback_cb)
+
+            rospy.loginfo('Sent goal with ID:'+str(self._goal.goal_id))
 
             # we do not wait for the result
             # and give the control back to the rest of the tree

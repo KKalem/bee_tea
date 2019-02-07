@@ -73,7 +73,7 @@ add_action_files(
 generate_messages(
   DEPENDENCIES
   std_msgs
-  actionlib_msgs#   std_msgs
+  actionlib_msgs
 )
 
 ################################################

@@ -73,7 +73,7 @@ class BT_ActionNode:
         # do stuff in case the action is cancelled by the tree
         # before it is done
         rospy.loginfo(self._name+' action received preemption!')
-        return
+
 
 
     def _execute_cb(self, goal):
