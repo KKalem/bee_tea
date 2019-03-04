@@ -24,7 +24,28 @@ class BT_ActionNode:
         self._name = name
 
         self._feedback = BTFeedback()
-        self._result = BTResult()
+
+        self._current_goal = ""
+        while True:
+            while self._current_goal == "":
+                pass
+
+            P = start process(self.act, self._current_goal)
+
+            while P is alive and self._current_goal is not "preempt":
+                tree_feedback(RUNNING)
+
+            if P is alive and goal is "preempt":
+                kill P
+                tree_feedback(FAILURE)
+
+            get retrun P
+            decide if S/F
+            tree_feedback(decision)
+
+            self._current_goal = ""
+
+
 
 
     def tree_feedback(self, s):
@@ -56,43 +77,10 @@ class BT_ActionNode:
         return True
         ###################################
 
-    def _fail(self):
-        # FAIL HERE
-        self.tree_feedback(FAILURE)
-        self._result.bt_status = FAILURE
-        self._action_server.set_aborted(self._result)
-
-    def _succeed(self):
-        # SUCCESS !
-        self.tree_feedback(SUCCESS)
-        self._result.bt_status = SUCCESS
-        self._action_server.set_succeeded(self._result)
-
-
-    def _preempt_cb(self):
-        # do stuff in case the action is cancelled by the tree
-        # before it is done
-        rospy.loginfo(self._name+' action received preemption!')
-
-
 
     def _execute_cb(self, goal):
         rospy.loginfo(self._name+' received goal: '+goal.bt_action_goal)
-
-        # let the tree know we are running
-        self.tree_feedback(RUNNING)
-
-        succeeded = self.act(goal.bt_action_goal)
-
-        if succeeded:
-            # work done successfully
-            rospy.loginfo(self._name+' completed successfully.')
-            self._succeed()
-        else:
-            rospy.loginfo(self._name+' failed to complete.')
-            self._fail()
-
-
+        self._current_goal = goal.bt_action_goal
 
 
 if __name__=='__main__':

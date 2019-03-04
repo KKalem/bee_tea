@@ -188,26 +188,26 @@ class ActionNodeLeaf(AbstractLeafNode):
             self._status_string = str(ret)+' -> None'
             return ret
 
-        elif self._status == RUNNING:
-            # feedback is not a reliable channel for success/failure communication
-            # check the status too if we are running
-            result = self._ac.get_result()
-            if result is not None:
-                # feedback didnt happen
-                # manual check found a resulting condition though
-                # same as the above SUCCESS/FAIL checks
-                # we let the tree know of the result immediately
-                self._status = None
-                ret = result.bt_status
-                rospy.loginfo(self._name+' is done with:'+str(ret))
-
-                self._status_string = 'RUNNING -> '+str(ret)+' -> None'
-                return ret
-
-            rospy.logdebug(self._name+' is running')
-
-            self._status_string = 'RUNNING'
-            return RUNNING
+        #  elif self._status == RUNNING:
+            #  # feedback is not a reliable channel for success/failure communication
+            #  # check the status too if we are running
+            #  result = self._ac.get_result()
+            #  if result is not None:
+                #  # feedback didnt happen
+                #  # manual check found a resulting condition though
+                #  # same as the above SUCCESS/FAIL checks
+                #  # we let the tree know of the result immediately
+                #  self._status = None
+                #  ret = result.bt_status
+                #  rospy.loginfo(self._name+' is done with:'+str(ret))
+#
+                #  self._status_string = 'RUNNING -> '+str(ret)+' -> None'
+                #  return ret
+#
+            #  rospy.logdebug(self._name+' is running')
+#
+            #  self._status_string = 'RUNNING'
+            #  return RUNNING
 
         else:
             # something has gone terribly wrong
@@ -229,11 +229,13 @@ class ActionNodeLeaf(AbstractLeafNode):
         but only if its running
         """
         if self._status == RUNNING:
-            rospy.loginfo(self._name+' preempt requested')
-            self._ac.cancel_all_goals()
+            send server "preempt" goal
 
-            self._status_string = str(self._status)+ ' -> None (Preempt)'
-            self._status = None
+            #  rospy.loginfo(self._name+' preempt requested')
+            #  self._ac.cancel_all_goals()
+#
+            #  self._status_string = str(self._status)+ ' -> None (Preempt)'
+            #  self._status = None
 
     def display(self, level):
         s = level*'   '+'A:['+self._name+']:'+str(self._status_string)+'\n'
